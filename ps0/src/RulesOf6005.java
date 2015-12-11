@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * RulesOf6005 represents some of the rules of 6.005 as described by the 
@@ -22,8 +24,17 @@ public class RulesOf6005 {
 	 * Example: "Lectures" and "lectures" will both return true.
 	 */
 	public static boolean hasFeature(String name){
-		// TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("hasFeature not implemented");
+		
+		String feature = name.toLowerCase();
+		
+		String[] features = {"lectures","recitations","text","promble sets","code review","returnin","projects","team meetings","quizzes"};
+		
+		List<String> list = new ArrayList<String>();
+		
+		for (int i = 0; i < features.length; i++) 
+			list.add(features[i]);
+		
+		return list.contains(feature);
 	}
 	
 	
@@ -41,8 +52,16 @@ public class RulesOf6005 {
 	 * @return the resulting grade out of a hundred
 	 */
 	public static int computeGrade(int quiz, int pset, int project, int participation){
-		// TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("computeGrade not implemented");
+		
+		float q = quiz * 0.2f;
+		
+		float ps = pset * 0.4f;
+		
+		float pr = project * 0.3f;
+		
+		float pa = participation * 0.1f;
+		
+		return Math.round(q + ps + pr + pa);
 	}
 	
 	
@@ -61,8 +80,23 @@ public class RulesOf6005 {
 	 * @return a new instance of a Calendar with the date and time set to when the assignment will be due
 	 */
 	public static Calendar extendDeadline(int request, int budget, Calendar duedate){
-		// TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("extendDeadline not implemented");
+		
+		if( request > budget){
+			if(budget <= 3)
+				duedate.add(Calendar.DAY_OF_WEEK, budget);
+			else
+				duedate.add(Calendar.DAY_OF_WEEK, 3);
+		}
+		
+		if( request <= budget){
+			if(request <= 3)
+				duedate.add(Calendar.DAY_OF_WEEK, request);
+			else
+				duedate.add(Calendar.DAY_OF_WEEK, 3);
+			
+		}
+
+		return duedate;
 	}
 	
 	
