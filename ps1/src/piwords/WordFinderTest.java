@@ -22,5 +22,39 @@ public class WordFinderTest {
                                                               needles));
     }
 
-    // TODO: Write more tests (Problem 4.a)
+    @Test
+    public void GetSubstringsTest() {
+    	//case 1
+        String haystack = "ashdjkasdh";
+        String[] needles = {"ash", "hdjk", "dj", "kas", "asdh", "jka"};
+
+        Map<String, Integer> expectedOutput = new HashMap<String, Integer>();
+        expectedOutput.put("ash", 0);
+        expectedOutput.put("hdjk", 2);
+        expectedOutput.put("dj", 3);
+        expectedOutput.put("kas", 5);
+        expectedOutput.put("asdh", 6);
+        expectedOutput.put("jka", 4);
+
+        assertEquals(expectedOutput, WordFinder.getSubstrings(haystack,
+                                                              needles));
+        
+        //case 2
+        haystack = "lkhgjothbsdjhajbnb";
+        needles = new String[]{"hgj", "th", "djha", "nb", "lkh", "bsd", "jo", "oth"};
+
+        expectedOutput = new HashMap<String, Integer>();
+        expectedOutput.put("hgj", 2);
+        expectedOutput.put("th", 6);
+        expectedOutput.put("djha", 10);
+        expectedOutput.put("nb", 16);
+        expectedOutput.put("lkh", 0);
+        expectedOutput.put("bsd", 8);
+        expectedOutput.put("jo", 4);
+        expectedOutput.put("oth", 5);
+
+        assertEquals(expectedOutput, WordFinder.getSubstrings(haystack,
+                                                              needles));
+        
+    }
 }

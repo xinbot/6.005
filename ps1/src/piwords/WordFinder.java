@@ -19,7 +19,38 @@ public class WordFinder {
      */
     public static Map<String, Integer> getSubstrings(String haystack,
                                                      String[] needles) { 
-        // TODO: Implement (Problem 4.b)
-        return new HashMap<String, Integer>();
+        HashMap<String, Integer> result = new HashMap<String, Integer>();
+        
+        StringBuffer substring;
+        
+        String temp;
+        
+        for (int i = 0; i < haystack.length(); i++) {
+			
+        	substring = new StringBuffer();
+        	
+        	for (int j = i; j < haystack.length(); j++) {
+        		
+				substring.append(haystack.charAt(j));
+				
+				temp = substring.toString();
+				
+				if(contains(temp,needles))
+					result.put(temp, i);
+			}
+		}
+        
+        return result;
+    }
+    
+    public static boolean contains(String v, String[] s){
+    	
+    	for (int i = 0; i < s.length; i++) {
+			if(s[i].equals(v))
+				return true;
+		}
+    	
+    	return false;
     }
 }
+

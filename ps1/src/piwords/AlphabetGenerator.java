@@ -1,5 +1,9 @@
 package piwords;
 
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
+
 public class AlphabetGenerator {
     /**
      * Given a numeric base, return a char[] that maps every digit that is
@@ -52,7 +56,72 @@ public class AlphabetGenerator {
      */
     public static char[] generateFrequencyAlphabet(int base,
                                                    String[] trainingData) {
-        // TODO: Implement (Problem 5.b)
-        return null;
+        
+    	if(base < 0)
+    		return null;
+    	
+    	char[] result = new char[base];
+    	
+    	TreeMap<Character, Integer> occurrence = new TreeMap<Character, Integer>(new Comparator<Character>() {
+    		//specify the compare method
+			@Override
+			public int compare(Character c1, Character c2) {
+				return c1.compareTo(c2);
+			}
+    	});
+    	
+    	int total = 0; 
+    	
+    	for (int i = 0; i < trainingData.length; i++) {
+			
+    		for (int j = 0; j < trainingData[i].length(); j++) {
+				
+    			char character = trainingData[i].charAt(j);
+    			
+    			boolean isLetter = Character.isLetter(trainingData[i].charAt(j));
+    			
+    			if(!isLetter)
+    				continue; // characters outside the range a-z, ignore it
+    			else{
+    				total++;
+    				
+    				if(occurrence.containsKey(character)){
+    					int newValue = occurrence.get(character) + 1; // increase the occurrence by 1
+    					occurrence.put(character, newValue); 
+    				}else{
+    					occurrence.put(character, 1); // initial the occurrence to 1
+    				}
+    			}
+			}
+		}
+    	
+    	//calculate the character occurrence probability
+    	TreeMap<Character, Double> probability = new TreeMap<Character, Double>();
+    	
+    	double prior = 0;
+    	
+    	for(Map.Entry<Character, Integer> entry : occurrence.entrySet()){
+    		
+    		Character c = entry.getKey();
+    		
+    		double pro = (double) entry.getValue().intValue() / total;
+
+    		probability.put(c, pro + prior);
+    		
+    		prior = pro + prior;
+    	}
+    	
+    	int k = 0;
+    	for(Map.Entry<Character, Double> entry : probability.entrySet()){
+    		
+    		int limit = (int) (Math.round(entry.getValue() * base)-1); //index width
+    		
+    		while ((k <= limit) && (k < base)) { //truncate those words outside base 
+    			result[k] = entry.getKey();
+    			k++;
+    		}
+    	}
+    	
+        return result;
     }
 }
